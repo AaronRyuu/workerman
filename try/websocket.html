@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<form action="">
+    <input type="text" id="name" placeholder="请输入你的名字">
+    <input type="submit" id="submit">
+</form>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        var ws = new WebSocket("ws://127.0.0.1:2000");
+
+        $("#submit").click(function () {
+            var name = $("#name").val();
+            ws.send(name);
+            return false;
+        })
+
+        ws.onmessage = function(e) {
+            alert(e.data);
+        }
+
+    })
+</script>
+</body>
+</html>

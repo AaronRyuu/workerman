@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<div id="app">
+
+    <ul>
+        <li v-for="message in messages">{{message}}</li>
+    </ul>
+
+    <form @submit.prevent="onSubmit">
+        <input type="text" v-model="content">
+        <input type="submit">
+    </form>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script>
+    var ws = new WebSocket("ws://0.0.0.0:7272");
+
+    var app = new Vue({
+        el: "#app",
+        data: {
+            messages: [],
+            content: ''
+        },
+        created: function(){
+            ws.onmessage = function (e) {
+                this.messages.push(e.data);
+            }.bind(this);
+        },
+        methods: {
+            onSubmit: function () {
+                ws.send(this.content);
+            }
+        }
+    })
+
+
+</script>
+</body>
+</html>
